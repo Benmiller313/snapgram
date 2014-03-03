@@ -142,7 +142,7 @@ Subscription.getAllSubscribers = function(user_id, callback)
 		}
 		var subs = [];
 		for (i=0; i<rows.length; i++){
-			subs.push(rows[0].follower_id);
+			subs.push(rows[i].follower_id);
 		}
 		callback(err, subs);
 	});

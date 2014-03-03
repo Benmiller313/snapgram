@@ -45,6 +45,7 @@ exports.create =function(req, res)
 		}
 		else if (!user){
 			//Couldnt be logged in
+			console.log(validation_error);
 			req.session.login_validation_error = validation_error;
 			res.redirect('sessions/new');
 		}

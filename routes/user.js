@@ -8,7 +8,10 @@ var mysql = require('../node_modules/mysql');
 var User = require('../models/user.js');
 
 
-
+exports.test = function(req, res, next)
+{
+	next("Testing!");
+}
 
 exports.list = function(req, res)
 {

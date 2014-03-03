@@ -75,6 +75,8 @@ Feed.updateFeeds = function(user_id, photo_id, callback)
 			callback(err);
 			return;
 		}
+		console.log('making feeds for users: ')
+		console.log(subs);
 		for(i=0; i<subs.length; i++){
 			var entry = new Feed(subs[i], photo_id);
 			entry.save();

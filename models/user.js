@@ -56,7 +56,7 @@ User.login = function(username, password, callback)
 		}
 
 		if (rows.length == 0){
-			callback(err);
+			callback(err, 'Incorrect username or password');
 			return;
 		}
 		if (rows.length != 1){

@@ -14,12 +14,7 @@ function connect()
 
 function Photo(user_id, type, date, id)
 {
-	if(id){
-		this.id = id;
-	}
-	else{
-		this.id = id;
-	}
+	this.id = id;
 	this.user_id = user_id;
 	this.type = type;
 	if (!date){
@@ -34,6 +29,18 @@ function Photo(user_id, type, date, id)
 	console.log(this.date.getTime());
 }
 
+Photo.clear = function(callback)
+{
+	var fs = require('fs');
+	fs.readdirSync('images/').forEach(function(fileName){
+		console.log('Removing file: ' + fileName);
+		fs.unlinkSync('images/'+fileName);
+	});
+	var db = connect();
+	db.query('DELETE FROM photos', callback);
+	db.end();
+}
+
 
 Photo.createTable = function(callback)
 {
@@ -44,9 +51,17 @@ Photo.createTable = function(callback)
 
 Photo.dropTable = function(callback)
 {
-	var db = connect();
-	db.query('DROP TABLE photos', callback);
-	db.end();
+	Photo.clear(function(err){
+		if (err){
+			console.log(err);
+			callback(err);
+			return;
+		}
+		var db = connect();
+		db.query('DROP TABLE photos', callback);
+		db.end();
+	});
+
 }
 
 Photo.prototype.save = function(callback)
@@ -70,6 +85,27 @@ Photo.prototype.save = function(callback)
 		});
 	}
 	db.end();
+}
+
+Photo.prototype.saveForceId = function(callback)
+{
+	var db = connect();
+
+	var that = this; //gross
+	db.query('INSERT INTO photos (user_id, type, date, id) VALUES (?, ?, ?, ?)', [this.user_id, this.type, this.date.getTime(), this.id], function(err, result){
+		console.log(result);
+		if (err){
+			console.log(err);
+			callback(err);
+		}
+		that.id = result.insertId;
+		if (callback){
+			callback(err);
+		}
+	});
+
+	db.end();
+
 }
 
 Photo.getAllForUser = function(user_id, callback) 
@@ -119,11 +155,5 @@ Photo.getListOfPhotos = function(photo_ids, callback)
 	}
 }
 
-Photo.clear = function(callback)
-{
-	var db = connect();
-	db.query('DELETE FROM photos', callback);
-	db.end();
-}
 
 module.exports = Photo;

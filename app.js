@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+  //app.use(express.errorHandler());
 }
 
 function requireLogin(req, res, next){
@@ -65,6 +65,7 @@ function requirePassword(req, res, next){
 
 app.get('/', requireNoLogin, routes.index);
 app.get('/users', user.list);
+app.get('/500test', user.test);
 app.get('/users/new', requireNoLogin, user.registration);
 app.post('/users/create', requireNoLogin,  user.create);
 app.get('/sessions/new', requireNoLogin, sessions.login);
@@ -79,15 +80,20 @@ app.get('/photos/new', requireLogin, photos.add);
 app.post('/photos/create', requireLogin, photos.create);
 app.get('/photos/:id.:ext', requireLogin, photos.serve);
 
+
 //BULK UPLOAD REQUIREMENTS
 app.get('/bulk/clear', requirePassword, bulk.clear);
-app.post('/bulk/users', requirePassword, bulk.users)
-
+app.post('/bulk/users', requirePassword, bulk.users);
+app.post('/bulk/streams', requirePassword, bulk.photos);
 
 app.use(function(req, res, next){
 	res.status(404).send("Sorry!");
-})
+});
 
+app.use(function(err, req, res, next){
+	res.status(500);
+	res.send("Error: " + err);
+});
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

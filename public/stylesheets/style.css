@@ -1,0 +1,134 @@
+body {
+  padding: 0px;
+  margin: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+html {
+}
+
+a {
+  color: #00B7FF;
+}
+
+h1 {
+	margin: 0px;
+}
+
+#head-banner { 
+	color: white;
+	padding: 10px;
+	width: auto;
+	height: 200px;
+	background-color: #2098E3;
+}
+
+#home-buttons {
+	width: 280px;
+	margin: 100px auto;
+}
+
+.button { 
+	font-size: 18px;
+	text-align: center;
+	display: inline-block;
+	margin: 10px;
+	padding: auto;
+	width: 100px;
+	color: white;
+	text-decoration: none;
+	padding: 10px;
+	background-color: #2098E3;
+	border: none;
+}
+
+#banner{
+	color: white;
+	padding: 10px;
+	width: auto;
+	height: 35px;
+	background-color: #2098E3;
+}
+
+#content-div{
+	width: 900px;
+	margin: 30px auto;
+	background-color: #DBDBDB;
+	padding: 25px;
+	border-radius: 10px;
+}
+
+#registration-form label{
+	display: block;
+	margin: 20px;
+}
+
+#registration-form span{
+	display: block;
+}
+
+.text-box {
+	padding: 8px;
+	width: 300px;
+	font-size: 18px;
+	display: inline;
+}
+
+.form-error-message {
+	color: red;
+	display: inline;
+}
+
+#feed-content {
+	width: 900px;
+	margin: 0px auto;
+	margin-bottom: 30px;
+	padding: 10px;
+	background-color: white;
+	border-radius: 0px 0px 10px 10px;
+	color: white;
+	text-align: center;
+}
+
+.feed-image-div { 
+	display: inline-block;
+	margin: auto;
+	margin-bottom: 20px;
+	background-color: white;
+	width: auto;
+	clear: both;
+	background-color: #2098E3;
+}
+
+.feed-image { 
+	margin: 0px;
+}
+
+.feed-caption {
+	background-color: #2098E3;
+	height: 25px;
+	padding: 5px;
+}
+
+.name-link {
+	float: left;
+	color: white;
+}
+
+.date-span {
+	float: right;
+}
+
+#follow-button { 
+	font-size: 18px;
+	text-align: center;
+	display: block;
+	margin: 20px auto;
+	
+	width: 380px;
+	color: white;
+	text-decoration: none;
+	padding: 10px;
+	background-color: #2098E3;
+	border: none;
+}

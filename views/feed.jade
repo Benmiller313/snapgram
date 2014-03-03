@@ -1,0 +1,12 @@
+extends page_template
+
+block content
+  div#feed-content
+    for photo in photos
+      span.feed-image-div
+        img.feed-image(src='/photos/#{photo.path}')
+        div.feed-caption
+          span 
+            a.name-link(href='/users/#{photo.id}')=photo.name
+            span.date-span=photo.time
+      br

@@ -1,0 +1,13 @@
+extends page_template
+
+block content
+  div#content-div
+    h2 Upload Photo:
+    form#registration-form(action='/photos/create', method='POST', enctype='multipart/form-data')
+      if file_error
+        p.form-error-message=file_error
+      label
+        span Filename:
+        input(type='file', name='file_select')
+      label
+        input.button(type='submit', value='Upload')

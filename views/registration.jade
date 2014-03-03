@@ -1,0 +1,29 @@
+extends page_template
+
+block content
+  div#content-div
+    h2 Registration:
+    form#registration-form(action='/users/create', method='POST')
+      label
+        span First Name:
+        input.text-box(type='text', name='firstname')
+        if first_name_error
+          p.form-error-message=first_name_error
+      label
+        span Last Name:
+        input.text-box(type='text', name='lastname')
+        if last_name_error
+          p.form-error-message=last_name_error
+      label
+        span Username:
+        input.text-box(type='text', name='username')
+        if username_error
+          p.form-error-message=username_error
+
+      label
+        span Password:
+        input.text-box(type='password', name='password')
+        if password_error
+          p.form-error-message=password_error
+      label
+        input.button(type='submit', value='Sign up')

@@ -1,0 +1,12 @@
+extends layout
+
+block page
+  div#head-banner
+    h1= title
+    p Welcome to SnapGram
+
+  div#content
+    div#home-buttons
+      a.button(href="/sessions/new") login
+      a.button(href="/users/new") register
+      

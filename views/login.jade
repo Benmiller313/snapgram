@@ -1,0 +1,20 @@
+extends page_template
+
+block content
+  div#content-div
+    h2 Login:
+    form#registration-form(action="/sessions/create" method="POST")
+      if login_validation_error
+        p.form-error-message=login_validation_error
+      label
+        span Username:
+        input.text-box(type='text', name='username')
+        if username_error
+          p.form-error-message=username_error
+      label
+        span Password:
+        input.text-box(type='password', name='password')
+        if password_error
+          p.form-error-message=password_error
+      label
+        input.button(type='submit', value='Login')

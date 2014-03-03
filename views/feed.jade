@@ -4,7 +4,7 @@ block content
   div#feed-content
     for photo in photos
       span.feed-image-div
-        img.feed-image(src='/photos/#{photo.path}')
+        img.feed-image(src='/photos/thumbnail/#{photo.path}')
         div.feed-caption
           span 
             a.name-link(href='/users/#{photo.id}')=photo.name

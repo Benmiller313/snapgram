@@ -71,11 +71,30 @@ exports.create = function(req, res)
 	});
 }
 
-exports.serve = function(req, res){
+exports.serve = function(req, res, next){
 	var path = "images/" + req.params.id + '.' + req.params.ext;
 	console.log(path);
 	if(!fs.existsSync(path)){
-		respond(404, "Requested image not found on server.", res, "text/plain");
+		next("Requested image not found on server.");
+		return;
+	}
+
+	var img = gm(path);
+	img.toBuffer(function(err, buffer){
+				if(err) console.log(err);
+				res.writeHead(200, {
+	      			'Content-Type' : 'image/png',
+	      			'Content-Length' : buffer.length});
+				res.write(buffer);
+				res.end('\n');
+	});
+}
+
+exports.serveThumb = function(req, res){
+	var path = "images/" + req.params.id + '.' + req.params.ext;
+	console.log(path);
+	if(!fs.existsSync(path)){
+		next("Requested image not found on server.");
 		return;
 	}
 

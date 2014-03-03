@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-  //app.use(express.errorHandler());
+  app.use(express.errorHandler());
 }
 
 function requireLogin(req, res, next){
@@ -78,6 +78,7 @@ app.get('/users/:id/:sub', requireLogin, feed.sub);
 
 app.get('/photos/new', requireLogin, photos.add);
 app.post('/photos/create', requireLogin, photos.create);
+app.get('/photos/thumbnail/:id.:ext', requireLogin, photos.serveThumb);
 app.get('/photos/:id.:ext', requireLogin, photos.serve);
 
 

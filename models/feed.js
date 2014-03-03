@@ -57,8 +57,14 @@ Feed.prototype.save = function(callback) {
 Feed.getFeedForUser = function(user_id, callback) { 
 	//Get a list of all photo ids, then load the photos for those ids
 	var db = connect();
+	console.log('getting feed info for ' + user_id);
 	db.query('SELECT * FROM feeds WHERE user_id = ?', [user_id], function(err, rows){
 		var photo_ids = rows.map(function(row){ return row.photo_id; });
+		console.log(photo_ids);
+		if (photo_ids.length==0){
+			callback(err, photo_ids);
+			return;
+		}
 		Photo.getListOfPhotos(photo_ids, callback);
 	})
 	db.end();

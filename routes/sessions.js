@@ -4,6 +4,7 @@ var User = require('../models/user');
 
 exports.login = function(req, res)
 {
+	console.log('yup');
 	res.render('login', {
 		title : "SnapGram: Login",
 		username_error : req.session.form_errors_username,
@@ -17,6 +18,7 @@ exports.login = function(req, res)
 
 exports.create =function(req, res)
 {
+	console.log('login');
 	//validate the form
 	var error = false;
 	delete req.session.form_errors_username;
@@ -27,6 +29,7 @@ exports.create =function(req, res)
 		error = true;
 	}
 	if(!req.body.password){
+		console.log('goo');
 		req.session.form_errors_password = "Please enter your password";
 		error = true;
 	}
@@ -38,10 +41,12 @@ exports.create =function(req, res)
 
 	//validate in database
 
+	console.log('validate');
 	User.login(req.body.username, req.body.password, function(err, validation_error, user){
+		console.log('in user');
 		if (err){
 			console.log(err);
-			//res.send('error');
+			res.send('error');
 		}
 		else if (!user){
 			//Couldnt be logged in

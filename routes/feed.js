@@ -6,6 +6,7 @@ var Feed = require('../models/feed');
 var url = require('url');
 
 exports.userFeed = function(req, res){
+	console.log('fuck');
 	var user = req.session.user;
 	Photo.getAllForUser(user.id, function(err, photos){
 		if (err) {
@@ -14,6 +15,8 @@ exports.userFeed = function(req, res){
 		}
 		//now get all photos in the feed table
 		Feed.getFeedForUser(user.id, function(err, feed_photos){
+			console.log('photos:');
+			console.log(feed_photos);
 			photos = photos.concat(feed_photos);
 			photos = photos.sort(function(a, b){
 				return b.date.getTime() - a.date.getTime();
@@ -47,7 +50,14 @@ exports.userFeed = function(req, res){
 					then();
 				});
 			}
-			
+			if (photos.length==0){
+				res.render('feed', {
+					title : 'SnapGram: Stream',
+					user : req.session.user,
+					photos : formatted_photos,
+				});
+				return;
+			}
 			for (i=0; i<photos.length; i++){
 				forEachPhoto(photos[i], i);
 			}

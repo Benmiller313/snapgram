@@ -4,9 +4,12 @@ block content
   div#feed-content
     for photo in photos
       span.feed-image-div
-        img.feed-image(src='/photos/thumbnail/#{photo.path}')
+        a(href="/photos/#{photo.path}")
+          img.feed-image(src='/photos/thumbnail/#{photo.path}')
         div.feed-caption
           span 
             a.name-link(href='/users/#{photo.id}')=photo.name
             span.date-span=photo.time
       br
+    if more
+      a#follow-button(href='/feed?page=#{next_page}') More...

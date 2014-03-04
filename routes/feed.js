@@ -5,8 +5,29 @@ var Subscription = require('../models/subscription');
 var Feed = require('../models/feed');
 var url = require('url');
 
+function slice(photos, query){
+	var per_page = 30;
+	//get the page:
+	if (query && query.page){
+		var page = parseInt(query.page);
+	}
+	else {
+		var page = 1;
+	}
+	console.log("page: " + page);
+	var start = (page-1) * 30;
+	var end = start + 30;
+	console.log("start: " + start + " end: " + end);
+	if (end >= photos.length){
+		return {pics: photos.slice(start), more : false, next:-1};
+	}
+	else{
+		console.log()
+		return {pics: photos.slice(start, end), more : true, next: page+1 };
+	}
+}
+
 exports.userFeed = function(req, res){
-	console.log('fuck');
 	var user = req.session.user;
 	Photo.getAllForUser(user.id, function(err, photos){
 		if (err) {
@@ -27,10 +48,15 @@ exports.userFeed = function(req, res){
 			var then = function(){
 				count++;
 				if (count == photos.length){
+					//Determine what photos to show. 
+					//Only show 30 at a time. 
+					paging = slice(formatted_photos, req.query);
 					res.render('feed', {
 						title : 'SnapGram: Stream',
 						user : req.session.user,
-						photos : formatted_photos,
+						photos : paging.pics,
+						more : paging.more,
+						next_page : paging.next
 					});
 					return;
 				}
@@ -100,11 +126,22 @@ exports.userStream = function(req, res, next){
 					res.send(err);
 					return;
 				}
+				if (req.session.user.id == user.id){
+					var owner = true;
+				}
+				else {
+					var owner = false;
+				}
+				console.log(owner);
+				paging = slice(formatted_photos, req.query);
 				res.render('stream', {
 							title : 'SnapGram: Stream',
 							user : req.session.user,
 							stream_id : req.params.id,
-							photos : formatted_photos,
+							photos : paging.pics,
+							more : paging.more,
+							next_page : paging.next,
+							owner : owner,
 							follow : yes 
 						});
 			});

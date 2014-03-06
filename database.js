@@ -13,7 +13,7 @@ conn.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
   console.log('The solution is: ', rows[0].solution);
 });
 
-conn.query('SELECT DATABASE()', function(err, rows){
+conn.query('SHOW TABLES', function(err, rows){
 	console.log(rows);
 	console.log(rows[0]);
 })

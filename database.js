@@ -3,7 +3,6 @@ conn = mysql.createConnection({
   host: 'web2.cpsc.ucalgary.ca',
   user: 's513_bamiller',
   password: '10015748',
-  database: 's513_bamiller'
 });
 
 conn.connect();

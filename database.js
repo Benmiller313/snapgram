@@ -3,6 +3,7 @@ conn = mysql.createConnection({
   host: 'web2.cpsc.ucalgary.ca',
   user: 's513_bamiller',
   password: '10015748',
+
 });
 
 conn.connect();
@@ -13,7 +14,8 @@ conn.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
   console.log('The solution is: ', rows[0].solution);
 });
 
-conn.query('SHOW TABLES', function(err, rows){
+conn.query('SHOW * FROM users', function(err, rows){
+	console.log(err);
 	console.log(rows);
 	console.log(rows[0]);
 })

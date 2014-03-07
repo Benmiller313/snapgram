@@ -49,7 +49,6 @@ exports.create = function(req, res, next)
 	// make a new file record and rename the image to reflect the id. 
 	var photo = new Photo(req.session.user.id, type);
 	photo.save(function(err){
-		console.log('id: ' + photo.id);
 		if(err){
 			next(err);
 			return;
@@ -73,7 +72,6 @@ exports.create = function(req, res, next)
 
 exports.serve = function(req, res, next){
 	var path = "images/" + req.params.id + '.' + req.params.ext;
-	console.log(path);
 	if(!fs.existsSync(path)){
 		next("Requested image not found on server.");
 		return;
@@ -92,7 +90,6 @@ exports.serve = function(req, res, next){
 
 exports.serveThumb = function(req, res){
 	var path = "images/" + req.params.id + '.' + req.params.ext;
-	console.log(path);
 	if(!fs.existsSync(path)){
 		next("Requested image not found on server.");
 		return;

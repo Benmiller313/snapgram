@@ -14,15 +14,12 @@ function slice(photos, query){
 	else {
 		var page = 1;
 	}
-	console.log("page: " + page);
 	var start = (page-1) * 30;
 	var end = start + 30;
-	console.log("start: " + start + " end: " + end);
 	if (end >= photos.length){
 		return {pics: photos.slice(start), more : false, next:-1};
 	}
 	else{
-		console.log()
 		return {pics: photos.slice(start, end), more : true, next: page+1 };
 	}
 }
@@ -36,8 +33,6 @@ exports.userFeed = function(req, res, next){
 		}
 		//now get all photos in the feed table
 		Feed.getFeedForUser(user.id, function(err, feed_photos){
-			console.log('photos:');
-			console.log(feed_photos);
 			photos = photos.concat(feed_photos);
 			photos = photos.sort(function(a, b){
 				return b.date.getTime() - a.date.getTime();
@@ -102,7 +97,6 @@ exports.userStream = function(req, res, next){
 			next();	//404
 			return;
 		}
-		console.log(user);
 
 		Photo.getAllForUser(req.params.id, function(err, photos){
 			if (err) {
@@ -132,7 +126,6 @@ exports.userStream = function(req, res, next){
 				else {
 					var owner = false;
 				}
-				console.log(owner);
 				paging = slice(formatted_photos, req.query);
 				res.render('stream', {
 							title : 'SnapGram: Stream',
@@ -152,9 +145,7 @@ exports.userStream = function(req, res, next){
 exports.sub = function(req, res, next)
 {
 	if (req.params.sub == 'follow') {
-		console.log('following');
 		var subscription  = new Subscription(req.session.user.id, req.params.id);
-		console.log(subscription);
 		subscription.save(function(err){
 			if (err){
 				next(err);

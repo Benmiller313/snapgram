@@ -50,7 +50,6 @@ exports.users = function(req, res, next)
 
 	var createUser = function(data)
 	{
-		console.log(data)
 		var hashed_pass = crypto.createHash('sha256').update(data.password).digest('hex');
 		var user = new User(data.name, data.name, hashed_pass, data.id)
 		user.saveForceId(function(err){
@@ -79,9 +78,6 @@ exports.photos = function(req, res, next)
 	var count = 0;
 	var photos = req.body;
 
-	console.log(photos);
-	console.log(photos[0]);
-
 	var then = function(){
 		count++;
 		if (count == photos.length) {
@@ -93,11 +89,9 @@ exports.photos = function(req, res, next)
 
 		//parse out the type
 		var type = data.path.split('.').pop();
-		console.log(type);
 
 		var photo = new Photo(data.user_id, type, data.timestamp, data.id);
 		photo.saveForceId(function(err){
-			console.log('id: ' + photo.id);
 			if(err){
 				next(err);
 				return;

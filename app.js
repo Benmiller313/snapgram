@@ -32,42 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-	console.log('test!');
-  app.use(express.errorHandler());
-}
-
-//Setup production database: 
-if ('production' == app.get('env')) { 
-	console.log('Production test');
-	mysql = require('mysql');
-	conn = mysql.createConnection({
-	  host: 'web2.cpsc.ucalgary.ca',
-	  user: 's513_bamiller',
-	  password: '10015748',
-	  database: 's513_bamiller'
-	});
-
-	conn.connect();
-
-	conn.query('SELECT 1 + 1 AS solution', function(err, rows, fields) {
-	  if (err) throw err;
-
-	  console.log('The solution is: ', rows[0].solution);
-	});
-
-	conn.end();
-
-}
-
-global.connect = function(){
-	var connection = mysql.createConnection({
-		host : 'localhost',
-		user : 'root',
-		password : ''
-	});
-	connection.connect();
-	connection.query('USE snapgram_db');
-	return connection;
+  //app.use(express.errorHandler());
 }
 
 function requireLogin(req, res, next){

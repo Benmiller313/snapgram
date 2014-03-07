@@ -34,7 +34,7 @@ Subscription.prototype.save = function(callback)
 {
 	var db = connect();
 	if (this.id){
-		console.log('bad');
+		console.log('error');
 	}
 	else{
 		//check if it exists
@@ -46,14 +46,11 @@ Subscription.prototype.save = function(callback)
 				db.end();
 				return;
 			}
-			console.log(rows);
 
 			if(rows.length == 0){
 				//good to go
-				console.log('here');
 				db.query('INSERT INTO subscriptions (follower_id, target_id) VALUES (?, ?)', [that.follower_id, that.target_id], function(err, result){
 					if (err){
-						console.log('weird');
 						console.log(err);
 						if (callback) callback(err);
 						return;
@@ -90,14 +87,12 @@ Subscription.unsub = function(follower_id, target_id, callback)
 Subscription.exists = function(follower_id, target_id, callback)
 {
 	var db = connect();
-	console.log('ids: ' + follower_id +  " "  + target_id );
 	db.query('SELECT * FROM subscriptions WHERE follower_id=? AND target_id=?', [follower_id, target_id], function(err, rows){
 		if (err){
 			console.log(err);
 			callback(err, false);
 		}
 		else {
-			console.log(rows);
 			callback(err, (rows.length==1));
 		}
 	})
@@ -124,7 +119,6 @@ Subscription.getAllForUser = function(user_id, callback)
 Subscription.getAllSubscribers = function(user_id, callback)
 {
 	var db = connect();
-	console.log('query for target: ' + user_id);
 	db.query('SELECT * FROM subscriptions WHERE target_id = ?', [user_id], function(err, rows){
 		if (err){
 			console.log(err);
@@ -153,7 +147,6 @@ Subscription.makeSubscriptions = function(user_id, id_list, callback)
 
 	var forEachSub = function(id){
 		var sub = new Subscription(user_id, id);
-		console.log(sub);
 		sub.save(function(err){
 			if (err){
 				callback(err);

@@ -43,7 +43,8 @@ User.login = function(username, password, callback)
 	var db = connect();
 	db.query('SELECT * FROM users WHERE username = ?', [username], function(err, rows, fields){
 		if(err){
-			console.log(err);
+			callback(err);
+			return;
 		}
 
 		if (rows.length == 0){

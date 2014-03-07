@@ -23,7 +23,7 @@ exports.add = function(req, res)
 	delete file_upload_error;
 }
 
-exports.create = function(req, res)
+exports.create = function(req, res, next)
 {
 	//verify form 
 	if(!req.files){
@@ -39,7 +39,7 @@ exports.create = function(req, res)
 		//unnacceptable type
 		fs.unlink(req.files.file_select.path, function(err){
 			if (err){
-				res.send(err);
+				next(err);
 			}
 		});
 		req.session.file_upload_error = 'File must be an image';
@@ -51,18 +51,18 @@ exports.create = function(req, res)
 	photo.save(function(err){
 		console.log('id: ' + photo.id);
 		if(err){
-			res.send(err);
+			next(err);
 			return;
 		}
 		fs.rename(req.files.file_select.path, 'images/' + photo.id + '.' + type, function(err){
 			if(err){
-				res.send(err);
+				next(err);
 			}
 
 			//Update all feeds as well. Can send the redirect before it completes. 
 			Feed.updateFeeds(req.session.user.id, photo.id, function(err){
 				if (err){
-					res.send(err);
+					next(err);
 					return;
 				}
 				res.redirect('/feed');

@@ -27,11 +27,11 @@ function slice(photos, query){
 	}
 }
 
-exports.userFeed = function(req, res){
+exports.userFeed = function(req, res, next){
 	var user = req.session.user;
 	Photo.getAllForUser(user.id, function(err, photos){
 		if (err) {
-			res.send(err);
+			next(err);
 			return;
 		}
 		//now get all photos in the feed table
@@ -64,7 +64,7 @@ exports.userFeed = function(req, res){
 			var forEachPhoto = function(photo, index){
 				User.getById(photo.user_id, function(err, photo_owner){
 					if (err) {
-						res.send(err);
+						next(err);
 						return;
 					}
 					formatted_photos[index] = {
@@ -95,7 +95,7 @@ exports.userFeed = function(req, res){
 exports.userStream = function(req, res, next){
 	User.getById(req.params.id, function(err, user){
 		if (err) {
-			res.send(err);
+			next(err);
 			return;
 		}
 		if (!user){
@@ -106,7 +106,7 @@ exports.userStream = function(req, res, next){
 
 		Photo.getAllForUser(req.params.id, function(err, photos){
 			if (err) {
-				res.send(err);
+				next(err);
 				return;
 			}
 			photos = photos.sort(function(a, b){
@@ -123,7 +123,7 @@ exports.userStream = function(req, res, next){
 			}
 			Subscription.exists(req.session.user.id, user.id, function(err,yes){
 				if (err){
-					res.send(err);
+					next(err);
 					return;
 				}
 				if (req.session.user.id == user.id){
@@ -157,7 +157,7 @@ exports.sub = function(req, res, next)
 		console.log(subscription);
 		subscription.save(function(err){
 			if (err){
-				res.send(err);
+				next(err);
 			}
 			else{
 				res.redirect('/users/'+req.params.id);
@@ -168,7 +168,7 @@ exports.sub = function(req, res, next)
 		//delete subscription
 		Subscription.unsub(req.session.user.id, req.params.id, function(err){
 			if (err){
-				res.send(err);
+				next(err);
 			}
 			else {
 				res.redirect('/users/'+req.params.id);
@@ -179,3 +179,4 @@ exports.sub = function(req, res, next)
 		next();	//404
 	}
 }
+

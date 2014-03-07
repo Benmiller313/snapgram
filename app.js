@@ -115,6 +115,7 @@ app.get('/photos/new', requireLogin, photos.add);
 app.post('/photos/create', requireLogin, photos.create);
 app.get('/photos/thumbnail/:id.:ext', requireLogin, photos.serveThumb);
 app.get('/photos/:id.:ext', requireLogin, photos.serve);
+//app.get('/photos/:id/share', requireLogin, feed.share);
 
 
 //BULK UPLOAD REQUIREMENTS
@@ -123,13 +124,13 @@ app.post('/bulk/users', requirePassword, bulk.users);
 app.post('/bulk/streams', requirePassword, bulk.photos);
 
 app.use(function(req, res, next){
-	res.status(404).send("Sorry!");
+	res.status(404).render("404", {title : 'SnapGram: 404'});
 });
 
 app.use(function(err, req, res, next){
-	res.status(500);
-	res.send("Error: " + err);
+	res.status(500).render("500", {title : 'SnapGram: 500'});
 });
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

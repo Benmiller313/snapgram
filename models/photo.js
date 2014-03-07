@@ -1,16 +1,7 @@
 var mysql = require('../node_modules/mysql');
 
-function connect()
-{
-	var connection = mysql.createConnection({
-		host : 'localhost',
-		user : 'root',
-		password : ''
-	});
-	connection.connect();
-	connection.query('USE snapgram_db');
-	return connection;
-}
+var connect = require('../database').connect;
+
 
 function Photo(user_id, type, date, id)
 {
@@ -23,10 +14,7 @@ function Photo(user_id, type, date, id)
 	else {
 
 		this.date = new Date(parseInt(date));
-		console.log(this.date);
 	}
-	console.log(this.date);
-	console.log(this.date.getTime());
 }
 
 Photo.clear = function(callback)
@@ -73,7 +61,6 @@ Photo.prototype.save = function(callback)
 	else{
 		var that = this; //gross
 		db.query('INSERT INTO photos (user_id, type, date) VALUES (?, ?, ?)', [this.user_id, this.type, this.date.getTime()], function(err, result){
-			console.log(result);
 			if (err){
 				console.log(err);
 				callback(err);
@@ -93,7 +80,6 @@ Photo.prototype.saveForceId = function(callback)
 
 	var that = this; //gross
 	db.query('INSERT INTO photos (user_id, type, date, id) VALUES (?, ?, ?, ?)', [this.user_id, this.type, this.date.getTime(), this.id], function(err, result){
-		console.log(result);
 		if (err){
 			console.log(err);
 			callback(err);
@@ -119,7 +105,6 @@ Photo.getAllForUser = function(user_id, callback)
 		}
 		var photos = [];
 		for (i=0; i < rows.length; i++){
-			console.log(rows[i].date);
 			photos.push(new Photo(rows[i].user_id, rows[i].type, rows[i].date, rows[i].id));
 		}
 		callback(err, photos);
@@ -154,6 +139,8 @@ Photo.getListOfPhotos = function(photo_ids, callback)
 		forEachId(photo_ids[i]);
 	}
 }
+
+
 
 
 module.exports = Photo;

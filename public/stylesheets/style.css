@@ -114,6 +114,10 @@ h1 {
 	float: left;
 	color: white;
 }
+#text-link {
+	color: white;
+	margin: 3px;
+}
 
 .date-span {
 	float: right;
@@ -131,4 +135,15 @@ h1 {
 	padding: 10px;
 	background-color: #2098E3;
 	border: none;
+}
+
+#error-div {
+	text-align: center;
+	width: 350px;
+	margin: 40px auto;
+}
+
+#error-head {
+	font-size: 100px;
+	color: grey;
 }

@@ -1,16 +1,7 @@
 
 var mysql = require('../node_modules/mysql');
-function connect()
-{
-	var connection = mysql.createConnection({
-		host : 'localhost',
-		user : 'root',
-		password : ''
-	});
-	connection.connect();
-	connection.query('USE snapgram_db');
-	return connection;
-}
+var connect = require('../database').connect;
+
 
 function Subscription(follower_id, target_id, id)
 {

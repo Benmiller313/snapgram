@@ -20,7 +20,7 @@ exports.clear = function(req, res)
 	{
 		model.clear(function(err){
 			if (err){
-				res.send(err);
+				next(err);
 			}
 			count++;
 			if (count == models.length){
@@ -35,7 +35,7 @@ exports.clear = function(req, res)
 	}	
 }
 
-exports.users = function(req, res)
+exports.users = function(req, res, next)
 {
 	var count = 0;
 	var users = req.body;
@@ -55,13 +55,13 @@ exports.users = function(req, res)
 		var user = new User(data.name, data.name, hashed_pass, data.id)
 		user.saveForceId(function(err){
 			if (err){
-				res.send(err);
+				next(err);
 				return;
 			}
 			//create feeds
 			Subscription.makeSubscriptions(user.id, data.follows, function(err){
 				if (err){
-					res.send(err);
+					next(err);
 					return;
 				}
 				jobDone();
@@ -74,7 +74,7 @@ exports.users = function(req, res)
 	}
 }
 
-exports.photos = function(req, res)
+exports.photos = function(req, res, next)
 {
 	var count = 0;
 	var photos = req.body;
@@ -99,18 +99,18 @@ exports.photos = function(req, res)
 		photo.saveForceId(function(err){
 			console.log('id: ' + photo.id);
 			if(err){
-				res.send(err);
+				next(err);
 				return;
 			}
 			var copy = fs.createReadStream(data.path).pipe(fs.createWriteStream('images/' + photo.id + '.' + type));
 			copy.on('close', function(err){
 				if(err){
-					res.send(err);
+					next(err);
 				}
 				//Update all feeds as well. Can send the redirect before it completes. 
 				Feed.updateFeeds(data.user_id, photo.id, function(err){
 					if (err){
-						res.send(err);
+						next(err);
 						return;
 					}
 					then();

@@ -33,7 +33,7 @@ exports.registration = function(req, res)
 	delete req.session.form_errors_password;
 };
 
-exports.create = function(req, res)
+exports.create = function(req, res, next)
 {
 	//validate form:
 	var error = false;
@@ -63,7 +63,7 @@ exports.create = function(req, res)
 
 	User.getByUsername(req.body.username, function(err, users){
 		if (err){
-			res.send(err);
+			next(err);
 			return;
 		}
 		if (users.length > 0){
@@ -75,7 +75,7 @@ exports.create = function(req, res)
 		user = new User(req.body.firstname + " " + req.body.lastname, req.body.username, hashed_pass);
 		user.save(function(err){
 			if (err) {
-				res.send(err);
+				next(err);
 				return;
 			}
 			req.session.user = user;

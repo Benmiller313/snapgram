@@ -4,5 +4,7 @@ block page
   div#banner
     h1(style='display: inline;') SnapGram
     if locals.user
-      span(style='display: inline; float: right; margin: 10px;') Logged in as: #{user.name}
+      span(style='display: inline; float: right; margin: 10px;') 
+        span Logged in as: #{user.name} | 
+        a#text-link(href="/sessions/logout") logout
   block content

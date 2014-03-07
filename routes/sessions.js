@@ -16,7 +16,7 @@ exports.login = function(req, res)
 	delete req.session.login_validation_error;
 }
 
-exports.create =function(req, res)
+exports.create =function(req, res, next)
 {
 	console.log('login');
 	//validate the form
@@ -46,7 +46,7 @@ exports.create =function(req, res)
 		console.log('in user');
 		if (err){
 			console.log(err);
-			res.send('error');
+			next('error');
 		}
 		else if (!user){
 			//Couldnt be logged in
